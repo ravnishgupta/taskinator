@@ -34,6 +34,7 @@ function addTask(event) {
       // send it as an argument to createTaskEl
       createTaskEl(taskDataObj);
       tasks.push(taskDataObj);
+      saveTasks();
     
     }
     formEl.reset();
@@ -123,6 +124,7 @@ var createTaskEl = function(taskDataObj) {
   var deleteTask = function(taskID) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskID + "']");
     taskSelected.remove();
+    saveTasks();
   }
 
   var editTask = function(taskId) {
@@ -168,7 +170,8 @@ var createTaskEl = function(taskDataObj) {
         tasks[i].name = taskName;
         tasks[i].type = taskType;
       }
-    };
+    }
+    saveTasks();
 
     alert("Task Updated!");
 
@@ -197,7 +200,12 @@ var createTaskEl = function(taskDataObj) {
       tasksCompletedEl.appendChild(taskSelected);
     }
     
+    saveTasks();
   };
- 
+  
   pageContentEl.addEventListener("click", taskButtonHandler);
   pageContentEl.addEventListener("change", taskStatusChangeHandler);
+  
+  var saveTasks = function () {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
